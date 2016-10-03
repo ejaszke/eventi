@@ -1,0 +1,26 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "nedb": "../data/",
+  "public": "../public/",
+  "auth": {
+    "token": {
+      "secret": "bmW3OLBA5tzFLmVMCT6gelamutehns+ahJZ93jxV/QQZofZ/yj3nUwb1tPMNBR7Tf+IV8T5T/yVHIZ8eSiIEdg=="
+    },
+    "local": {},
+    "facebook": {
+      "clientID": "your facebook client id",
+      "clientSecret": "your facebook client secret",
+      "permissions": {
+        "scope": ["public_profile","email"]
+      }
+    },
+    "google": {
+      "clientID": "your google client id",
+      "clientSecret": "your google client secret",
+      "permissions": {
+        "scope": ["profile"]
+      }
+    }
+  }
+}
