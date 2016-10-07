@@ -1,6 +1,33 @@
-'use strict';
+
+import Tpay from '../../../classes/tpay';
+import Client from '../../../classes/client';
 
 const auth = require('feathers-authentication').hooks;
+
+const updatePayment = function(options = {}) {
+
+  return function(hook) {
+    const options = {
+      merchantId: hook.app.get('merchantId'),
+      merchantCode: hook.app.get('merchantCode')
+    };
+
+    const tpay = new Tpay(
+      options,
+      new Client(
+        hook.data.firstName,
+        hook.data.lastName,
+        hook.data.email
+      )
+    );
+
+    hook.data.paymentLink = tpay.generateQueryString(
+      100,
+      '/registration/response/success',
+      '/registration/response/failure'
+    );
+  };
+};
 
 exports.before = {
   all: [],
@@ -14,7 +41,9 @@ exports.before = {
   ],
   get: [
   ],
-  create: [],
+  create: [
+      updatePayment()
+  ],
   update: [
     auth.verifyToken(),
     auth.populateUser(),
@@ -45,7 +74,9 @@ exports.after = {
   all: [],
   find: [],
   get: [],
-  create: [],
+  create: [
+
+  ],
   update: [],
   patch: [],
   remove: []

@@ -5,13 +5,11 @@ chai.should();
 
 import chaiHttp from 'chai-http';
 import assert from 'assert';
-import authentication from 'feathers-authentication/client';
-import bodyParser from 'body-parser';
-
 const app = require('../../../src/app');
 const Event = app.service('events');
 const User = app.service('users');
-
+const authentication = require('feathers-authentication/client');
+const bodyParser = require('body-parser');
 var adminToken;
 var userToken;
 var eventId;

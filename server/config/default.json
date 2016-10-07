@@ -22,5 +22,7 @@
         "scope": ["profile"]
       }
     }
-  }
+  },
+  "merchantId": "123",
+  "merchantCode": "123"
 }

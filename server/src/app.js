@@ -30,21 +30,4 @@ app.use(compress())
   .configure(services)
   .configure(middleware);
 
-
-// app.service('users').create({
-//     email: 'kutaisi@gruzja.pl',
-//     password: 'test',
-//     roles: ['admin']
-// }).then(function(message) {
-//     console.log('User created', message);
-// });
-
-app.service('events').create({
-    title: 'test',
-    price: 100
-}).then(function(message) {
-    console.log('Event created', message);
-});
-
-
 module.exports = app;
