@@ -91,7 +91,8 @@ describe('event service', function() {
                 title: 'Event One',
                 price: 100,
                 city: 'Katowice',
-                description: 'Event description.'
+                description: 'Event description.',
+                date: new Date()
             })
             .end((err, res) => {
                 res.body.should.have.property('title');
@@ -102,6 +103,7 @@ describe('event service', function() {
                 res.body.city.should.equal('Katowice');
                 res.body.should.have.property('description');
                 res.body.description.should.equal('Event description.');
+                res.body.should.have.property('date');
                 res.body.should.have.property('_id');
                 eventId = res.body._id;
                 done();
@@ -117,7 +119,8 @@ describe('event service', function() {
           title: 'Event One',
           price: 100,
           city: 'Katowice',
-          description: 'Event description.'
+          description: 'Event description.',
+          date: new Date()
         })
         .end((err, res) => {
           res.statusCode.should.equal(403);
