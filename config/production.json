@@ -1,5 +1,5 @@
 {
-  "host": "eventi-app.feathersjs.com",
+  "host": "flyevents.herokuapp.com",
   "port": 80,
   "nedb": "NEDB_BASE_PATH",
   "public": "../public/",
