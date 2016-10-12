@@ -25,5 +25,5 @@
   },
   "merchantId": "123",
   "merchantCode": "123",
-  "tpayIP": "195.149.229.109"
+  "tpayIP": ["::ffff:127.0.0.1"]
 }

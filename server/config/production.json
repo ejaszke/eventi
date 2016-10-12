@@ -24,5 +24,6 @@
     }
   },
   "merchantId": "TPAY_MERCHANT_ID",
-  "merchantCode": "TPAY_MERCHANT_CODE"
+  "merchantCode": "TPAY_MERCHANT_CODE",
+  "tpayIP": ["195.149.229.109", "148.251.96.163", "178.32.201.77", "46.248.167.59", "46.29.19.106"]
 }

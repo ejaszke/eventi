@@ -1,8 +1,9 @@
 
-const path = require('path');
-const NeDB = require('nedb');
-const service = require('feathers-nedb');
-const hooks = require('./hooks');
+import path from 'path';
+import NeDB from 'nedb';
+import service from 'feathers-nedb';
+import hooks from './hooks';
+import winston from 'winston';
 
 module.exports = function(){
   const app = this;
@@ -20,19 +21,31 @@ module.exports = function(){
     }
   };
 
-  app.use('/registrations/confirm', {
-    create: function(data, params, callback) {
-      //todo check ip address
-      return Promise.resolve('TRUE');
-    }
-  });
-
   app.use('/registrations', service(options));
 
   const registrationService = app.service('/registrations');
 
-  let config = app.get('auth');
-
   registrationService.before(hooks.before);
   registrationService.after(hooks.after);
+
+  app.post('/registrations/confirm', function (req, res) {
+    /* jshint camelcase: false */
+    winston.info('Tpay confirmation received crc: ' + req.body.tr_crc + ' status:' + req.body.tr_status );
+
+    if (app.get('env') !== 'development') {
+      if (!app.get('tpayIP').includes(req.ip)) {
+        res.json('FALSE');
+      }
+    }
+
+    /* jshint camelcase: false */
+    if (req.body.tr_status === true) {
+      registrationService.patch(null, {'confirmed': true}, {query: {crc: req.body.tr_crc}});
+    }
+
+    res.json('TRUE');
+  });
+
+
+
 };
