@@ -1,6 +1,6 @@
 {
   "host": "flyevents.herokuapp.com",
-  "port": 80,
+  "port": "app.get('port')",
   "nedb": "NEDB_BASE_PATH",
   "public": "../public/",
   "auth": {
