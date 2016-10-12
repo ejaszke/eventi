@@ -26,6 +26,8 @@ const updatePayment = function(options = {}) {
       '/registration/response/success',
       '/registration/response/failure'
     );
+    hook.data.confirmed = false;
+    hook.data.crc = tpay.crc;
   };
 };
 

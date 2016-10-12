@@ -20,12 +20,19 @@ module.exports = function(){
     }
   };
 
+  app.use('/registrations/confirm', {
+    create: function(data, params, callback) {
+      //todo check ip address
+      return Promise.resolve('TRUE');
+    }
+  });
+
   app.use('/registrations', service(options));
 
   const registrationService = app.service('/registrations');
 
   let config = app.get('auth');
-  
+
   registrationService.before(hooks.before);
   registrationService.after(hooks.after);
 };

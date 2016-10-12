@@ -12,8 +12,11 @@ const app = require('../../../src/app');
 const Event = app.service('events');
 const Registration = app.service('registrations');
 
+const expect = chai.expect;
+
 var eventId;
 var registrationId;
+var crc;
 
 app
     .use(bodyParser.json())
@@ -85,6 +88,9 @@ describe('registration service', function() {
           res.body.marketingAgreements.register.should.equal(true);
           res.body.marketingAgreements.marketing.should.equal(true);
           res.body.should.have.property('paymentLink');
+          res.body.should.have.property('confirmed');
+          res.body.should.have.property('crc');
+          crc = res.body.crc;
           registrationId = res.body._id;
           done();
         });
@@ -107,6 +113,36 @@ describe('registration service', function() {
         .end((err, res) => {
           res.statusCode.should.equal(401);
           done();
+        });
+    });
+
+    it('on tpay confirmation should return true', (done) => {
+      chai.request(app)
+        .post('/registrations/confirm')
+        .send({
+          'tr_status': false,
+          'tr_crc': crc
+        })
+        .end((err, res) => {
+          res.body.should.equal('TRUE');
+          done();
+        });
+    });
+
+    it('on tpay success change registration status on true', (done) => {
+      chai.request(app)
+        .post('/registrations/confirm')
+        .send({
+          'tr_status': true,
+          'tr_crc': crc
+        })
+        .end((err, res) => {
+          Registration.find({ query: { crc: crc }})
+            .then(registration => {
+              expect(registration.data[0].confirmed).to.equal(true);
+              done();
+          })
+            .catch(err => done(err));
         });
     });
 });
