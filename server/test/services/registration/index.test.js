@@ -96,7 +96,7 @@ describe('registration service', function() {
         });
     });
 
-    it('everyone cant delete an registration', (done) => {
+    it('everyone cant delete a registration', (done) => {
       chai.request(app)
         .delete('/registrations/' + registrationId)
         .send()
