@@ -33,7 +33,8 @@ module.exports = function(){
     winston.info('Tpay confirmation received crc: ' + req.body.tr_crc + ' status:' + req.body.tr_status );
 
     if (app.get('env') !== 'development') {
-      if (!app.get('tpayIP').includes(req.ip)) {
+      const ipAddress = req.headers['x-forwarded-for'] || req.ip;
+      if (!app.get('tpayIP').includes(ipAddress)) {
         res.json('FALSE');
       }
     }
