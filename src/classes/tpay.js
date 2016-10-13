@@ -9,6 +9,12 @@ export default class Tpay {
     this.client = client;
     this.merchantId = options.merchantId;
     this.merchantCode = options.merchantCode;
+    this.description = options.description;
+    this.price = options.price.toFixed(2);
+
+    if (!this.price || this.price <= 0) {
+      throw new Error();
+    }
 
     this.crc = crc;
     if (this.crc === undefined) {
@@ -16,22 +22,18 @@ export default class Tpay {
     }
   }
 
-  generateQueryString(amount, returnUrl, returnUrlIfError) {
-
-    if (!amount || amount <= 0) {
-      throw new Error();
-    }
+  generateQueryString(returnUrl, returnUrlIfError) {
 
     let tpayArray = {
       'id': this.merchantId,
-      'kwota': amount.toFixed(2),
+      'kwota': this.price,
       'opis': this.description,
       'crc': this.crc,
       'nazwisko': this.client.name,
       'email': this.client.email,
       'pow_url': returnUrl,
       'pow_url_blad': returnUrlIfError,
-      'md5sum': md5(this.merchantId.toString() + amount.toFixed(2) + this.crc + this.merchantCode)
+      'md5sum': md5(this.merchantId.toString() + this.price + this.crc + this.merchantCode)
     };
 
     return 'https://secure.transferuj.pl/?' + queryString.stringify(tpayArray);
